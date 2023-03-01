@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DALL-E Image Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Asset Generator</h1>
+      <p>Enter description of the asset:</p>
+      <form
+        action="{{ url_for('result') }}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group">
+          <input
+            class="form-control input-lg col-auto"
+            type="text"
+            id="description"
+            name="description"
+            required
+          />
+          <br /><br />
+        </div>
+
+        <button type="submit" class="btn">Generate Image</button>
+      </form>
+    </div>
+    <div id="image-container"></div>
+    <script>
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const response = await fetch("/result", {
+          method: "POST",
+          body: formData,
+        });
+        const imageUrl = await response.text();
+        const imageContainer = document.querySelector("#image-container");
+        imageContainer.innerHTML = `<img src="${imageUrl}" alt="Generated image">`;
+      });
+    </script>
+  </body>
+</html>

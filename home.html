@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DALL-E Image Generator</title>
+  </head>
+  <body>
+    <h1>DALL-E Image Generator</h1>
+    <form method="POST">
+      <label for="description">Enter a description:</label>
+      <input type="text" id="description" name="description" />
+      <button type="submit">Generate Image</button>
+    </form>
+    {% if image_data %}
+    <img src="data:image/png;base64,{{ image_data|b64encode }}" />
+    {% endif %}
+  </body>
+</html>
